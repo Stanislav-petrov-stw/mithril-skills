@@ -1,0 +1,23 @@
+{
+  "name": "@mithril/mcp",
+  "version": "0.1.0",
+  "description": "Mithril MCP server — one portal for crypto trading (DEX perps, prediction markets, DeFi yield) via the Mithril API. Bring your own key.",
+  "type": "module",
+  "bin": { "mithril-mcp": "dist/index.js" },
+  "main": "dist/index.js",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "keywords": ["mcp", "model-context-protocol", "crypto", "trading", "defi", "perpetuals", "prediction-markets", "yield", "mithril"],
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^22.0.0"
+  }
+}
