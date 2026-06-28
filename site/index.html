@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mithril — the crypto-trading MCP + Skills for AI agents</title>
+<meta name="description" content="One connection for AI agents to read markets and trade across DEX perps, prediction markets, and DeFi yield. Skills + an MCP portal, metered in credits. Sign in, you're ready — no seed phrase, no API keys." />
+<style>
+  :root{
+    --bg:#07090e; --panel:#0d1117; --panel2:#12161f; --border:#222a35;
+    --text:#e5e7eb; --muted:#7f8da0; --faint:#4b5563; --emerald:#34d399; --emerald-d:#06281d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:16px}
+  .mark{width:24px;height:24px;border-radius:7px;background:var(--emerald)}
+  .nav a.gh{font-size:13px;color:var(--muted);border:1px solid var(--border);border-radius:9px;padding:8px 14px}
+  .nav a.gh:hover{color:var(--text);border-color:#33404f}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:11px;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer;border:1px solid transparent}
+  .btn.primary{background:var(--emerald);color:var(--emerald-d)}
+  .btn.ghost{background:var(--panel2);border-color:var(--border);color:var(--text)}
+  .hero{padding:48px 0 30px;text-align:center}
+  .pill{display:inline-block;font-size:12px;font-weight:600;color:var(--emerald);background:#0e1b16;border:1px solid #1f7a5c;border-radius:999px;padding:5px 13px;margin-bottom:22px}
+  h1{font-size:50px;font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:18px}
+  h1 .g{color:var(--emerald)}
+  .lede{font-size:18px;color:var(--muted);max-width:640px;margin:0 auto 28px}
+  .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .demo{margin:46px auto 10px;max-width:760px}
+  .demo .frame{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:10px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .demo video{width:100%;border-radius:12px;display:block}
+  .demo .cap{text-align:center;color:var(--faint);font-size:12.5px;margin-top:12px}
+  section{padding:54px 0;border-top:1px solid #11161d}
+  .eyebrow{color:var(--emerald);font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+  h2{font-size:30px;font-weight:800;letter-spacing:-.01em;margin-bottom:12px}
+  .sub{color:var(--muted);font-size:15.5px;max-width:620px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px}
+  .card h3{font-size:16px;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:13.5px}
+  .card .tag{font-size:11px;color:var(--emerald);font-weight:700;margin-top:12px;display:block}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
+  .feat li{list-style:none;color:var(--muted);font-size:15px;padding:7px 0 7px 26px;position:relative}
+  .feat li:before{content:"✓";position:absolute;left:0;color:var(--emerald);font-weight:800}
+  .codebox{background:#0b0e13;border:1px solid var(--border);border-radius:14px;padding:18px;font-family:ui-monospace,monospace;font-size:13px;color:#cbd5e1;overflow:auto}
+  .codebox .k{color:var(--emerald)}
+  .credit{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+  .credit .c{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;text-align:center}
+  .credit .big{font-size:26px;font-weight:800}
+  .credit .lbl{color:var(--muted);font-size:13px;margin-top:4px}
+  .final{text-align:center}
+  footer{border-top:1px solid #11161d;padding:30px 0;color:var(--faint);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  @media(max-width:760px){h1{font-size:36px}.grid,.credit,.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <div class="brand"><span class="mark"></span> Mithril <span style="color:var(--muted);font-weight:500">Skills</span></div>
+    <a class="gh" href="https://github.com/Stanislav-petrov-stw/mithril-skills">★ GitHub</a>
+  </nav>
+
+  <header class="hero">
+    <span class="pill">Skills + MCP · crypto trading for AI agents</span>
+    <h1>Connect once.<br/>Trade <span class="g">everywhere</span>.</h1>
+    <p class="lede">One MCP and a set of Skills that let an AI agent — or the people who vibe-code with one — read markets and trade across <b>8 DEXes, prediction markets, and DeFi yield</b>. Bring your own key, or buy Mithril credits. Mithril never custodies funds.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/Stanislav-petrov-stw/mithril-skills">Get started — it's open source</a>
+      <a class="btn ghost" href="https://github.com/Stanislav-petrov-stw/mithril-skills/tree/main/mcp">Install the MCP →</a>
+    </div>
+
+    <div class="demo">
+      <div class="frame">
+        <video src="onboarding-demo.mp4" autoplay muted loop playsinline poster=""></video>
+      </div>
+      <div class="cap">Sign in → trading account ready in seconds. No seed phrase, no API keys, no on-chain bridge.</div>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">One portal</div>
+    <h2>One MCP. The whole growing network.</h2>
+    <p class="sub">Connect the Mithril MCP once and your agent gets every integration we support — and every one we add next. New venue, new Skill, automatically on the portal.</p>
+    <div class="grid">
+      <div class="card"><h3>⚖️ DEX perps</h3><p>Hyperliquid, Paradex, Extended, Pacifica, Hibachi, Aftermath, Carbon, Avantis — one normalized interface.</p><span class="tag">mithril-dex</span></div>
+      <div class="card"><h3>🎯 Prediction markets</h3><p>Polymarket + Kalshi, live prices and odds. Keyless reads.</p><span class="tag">mithril-prediction-markets</span></div>
+      <div class="card"><h3>🌱 DeFi yield</h3><p>Lending, staking, LP and vault yields across chains, by APY and TVL. Keyless reads.</p><span class="tag">mithril-yield</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="two">
+      <div>
+        <div class="eyebrow">Drop-in</div>
+        <h2>Add it to Claude in one block.</h2>
+        <p class="sub">The MCP runs anywhere MCP runs — Claude Desktop, Claude Code, Cursor. Use Mithril credits, or bring your own key.</p>
+      </div>
+      <div class="codebox">{<br/>&nbsp;&nbsp;"mcpServers": {<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">"mithril"</span>: {<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"command": "node",<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"args": ["…/mcp/dist/index.js"],<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"env": { <span class="k">"MITHRIL_SESSION_TOKEN"</span>: "…" }<br/>&nbsp;&nbsp;&nbsp;&nbsp;}<br/>&nbsp;&nbsp;}<br/>}</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">No thresholds</div>
+    <h2>The frictionless part is the product.</h2>
+    <p class="sub">Most crypto apps lose people at "add your API keys" and "fund on-chain." We removed both.</p>
+    <ul class="feat" style="margin-top:22px">
+      <li>Sign in with email, Google or Apple — an embedded wallet, no seed phrase</li>
+      <li>A trade-only agent wallet is provisioned automatically — no API credentials, one signature</li>
+      <li>Fund with a card, or Venmo / PayPal / Cash App with no KYC</li>
+      <li>Agent keys are trade-only (can't withdraw); your funds stay in your wallet</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="eyebrow">Pricing</div>
+    <h2>Test free. Buy credits to scale.</h2>
+    <p class="sub">Like the tools you already use — start free, pay for what you use. Reads are cheap; you only really pay when you trade.</p>
+    <div class="credit">
+      <div class="c"><div class="big">50</div><div class="lbl">free credits on signup</div></div>
+      <div class="c"><div class="big">~free</div><div class="lbl">reads, with a daily allotment</div></div>
+      <div class="c"><div class="big">flat</div><div class="lbl">per write — one simple price</div></div>
+    </div>
+  </section>
+
+  <section class="final">
+    <h2>Put Mithril in your build.</h2>
+    <p class="sub" style="margin:0 auto 24px">Open source. MIT. The fastest way to give an agent real markets.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/Stanislav-petrov-stw/mithril-skills">View on GitHub</a>
+      <a class="btn ghost" href="https://mithril.money">Get an API key</a>
+    </div>
+  </section>
+
+  <footer>
+    <div>© 2026 Mithril · MIT licensed</div>
+    <div>Mithril routes calls to the exchanges — it never custodies funds.</div>
+  </footer>
+</div>
+</body>
+</html>
