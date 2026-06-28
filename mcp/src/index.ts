@@ -3,38 +3,75 @@
  * Mithril MCP — one portal for crypto trading across DEX perps, prediction
  * markets, and DeFi yield, via the Mithril API.
  *
- * This is a CLIENT of api.mithril.money (additive — it never touches Mithril's
- * trading backend). Bring your own key; Mithril never custodies funds. Every new
- * Mithril integration (CEX, FX, stocks, commodities, RWA) joins this same portal.
+ * Two modes (a CLIENT of Mithril either way — never touches the trading backend):
+ *
+ *   1. METERED (recommended) — set MITHRIL_SESSION_TOKEN to your Mithril session.
+ *      Every call routes through https://build.mithril.money/api/meter, which
+ *      debits Mithril credits (reads free up to a daily allotment, writes flat)
+ *      and runs the call server-side. "Buy credits, trade." No exchange key to
+ *      manage.
+ *
+ *   2. BYO-KEY — set MITHRIL_API_KEY to your own mt_live_ key. Authenticated
+ *      calls go straight to api.mithril.money; no credits involved.
+ *
+ * Keyless reads (predictions, yield) work in either mode (and with no env at all
+ * in BYO mode). Bring your own key OR your credits; Mithril never custodies funds.
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 
-const API = "https://api.mithril.money/api/v1";
-const PUBLIC = "https://build.mithril.money/api/public";
+const METER_URL = "https://build.mithril.money/api/meter";
+const API_URL = "https://api.mithril.money/api/v1";
+const PUBLIC_BASE = "https://build.mithril.money/api/public";
 
-function apiKey(): string {
-  const k = process.env.MITHRIL_API_KEY;
-  if (!k) {
+const SESSION = process.env.MITHRIL_SESSION_TOKEN; // metered (credits)
+const API_KEY = process.env.MITHRIL_API_KEY; // BYO key (direct)
+const METERED = !!SESSION;
+
+const PUBLIC_OPS = new Set(["getPredictions", "getYields", "getYield"]);
+
+/** Route an operation through the active mode. */
+async function dispatch(operation: string, params: Record<string, unknown>): Promise<string> {
+  if (METERED) {
+    const res = await fetch(METER_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: `Bearer ${SESSION}` },
+      body: JSON.stringify({ operation, ...params }),
+    });
+    return res.text();
+  }
+  if (PUBLIC_OPS.has(operation)) return directPublic(operation, params);
+  if (!API_KEY) {
     throw new Error(
-      "MITHRIL_API_KEY is not set. Get a key at https://mithril.money and add it to your MCP server config (env.MITHRIL_API_KEY). Keyless tools (predictions, yield) work without it.",
+      "No credentials. Set MITHRIL_SESSION_TOKEN to use Mithril credits, or MITHRIL_API_KEY to use your own key. Get either at https://mithril.money.",
     );
   }
-  return k;
-}
-
-async function callMithril(body: Record<string, unknown>): Promise<string> {
-  const res = await fetch(API, {
+  const res = await fetch(API_URL, {
     method: "POST",
-    headers: { "content-type": "application/json", "x-api-key": apiKey() },
-    body: JSON.stringify(body),
+    headers: { "content-type": "application/json", "x-api-key": API_KEY },
+    body: JSON.stringify({ operation, ...params }),
   });
   return res.text();
 }
 
-async function getPublic(path: string): Promise<string> {
-  const res = await fetch(`${PUBLIC}${path}`);
+/** BYO-mode keyless reads: hit the public proxy directly. */
+async function directPublic(op: string, params: Record<string, unknown>): Promise<string> {
+  let path: string;
+  if (op === "getPredictions") {
+    path = `/predictions?venue=${encodeURIComponent(String(params.venue ?? ""))}`;
+  } else if (op === "getYields") {
+    const p = new URLSearchParams({ resource: "yields" });
+    if (params.type) p.set("type", String(params.type));
+    if (params.network) p.set("network", String(params.network));
+    if (params.limit) p.set("limit", String(params.limit));
+    path = `/yield?${p.toString()}`;
+  } else if (op === "getYield") {
+    path = `/yield?resource=yield&id=${encodeURIComponent(String(params.id ?? ""))}`;
+  } else {
+    return JSON.stringify({ error: "unknown_public_op", op });
+  }
+  const res = await fetch(`${PUBLIC_BASE}${path}`);
   return res.text();
 }
 
@@ -51,14 +88,14 @@ async function guard(fn: () => Promise<string>) {
   }
 }
 
-const server = new McpServer({ name: "mithril", version: "0.1.0" });
+const server = new McpServer({ name: "mithril", version: "0.2.0" });
 
 const credentialId = z
   .string()
   .describe("The connected exchange account id (manage connections in the Mithril portal).");
 const marketSym = z.string().describe("Market symbol in {BASE}-USD-PERP form, e.g. BTC-USD-PERP.");
 
-/* ---------------- DEX — perps across 8 venues (your key) ---------------- */
+/* ---------------- DEX — perps across 8 venues ---------------- */
 
 server.registerTool(
   "mithril_dex_get_markets",
@@ -69,7 +106,7 @@ server.registerTool(
     inputSchema: { credentialId },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
-  ({ credentialId }) => guard(() => callMithril({ operation: "getAllMarkets", credentialId })),
+  ({ credentialId }) => guard(() => dispatch("getAllMarkets", { credentialId })),
 );
 
 server.registerTool(
@@ -80,7 +117,7 @@ server.registerTool(
     inputSchema: { credentialId },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
-  ({ credentialId }) => guard(() => callMithril({ operation: "getBalance", credentialId })),
+  ({ credentialId }) => guard(() => dispatch("getBalance", { credentialId })),
 );
 
 server.registerTool(
@@ -91,7 +128,7 @@ server.registerTool(
     inputSchema: { credentialId },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
-  ({ credentialId }) => guard(() => callMithril({ operation: "getPositions", credentialId })),
+  ({ credentialId }) => guard(() => dispatch("getPositions", { credentialId })),
 );
 
 server.registerTool(
@@ -102,8 +139,7 @@ server.registerTool(
     inputSchema: { credentialId, market: marketSym.optional() },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
-  ({ credentialId, market }) =>
-    guard(() => callMithril({ operation: "getFills", credentialId, market })),
+  ({ credentialId, market }) => guard(() => dispatch("getFills", { credentialId, market })),
 );
 
 server.registerTool(
@@ -121,9 +157,7 @@ server.registerTool(
     annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
   },
   ({ credentialId, market, side, price, size }) =>
-    guard(() =>
-      callMithril({ operation: "placeLimitOrder", credentialId, market, side, price, size }),
-    ),
+    guard(() => dispatch("placeLimitOrder", { credentialId, market, side, price, size })),
 );
 
 server.registerTool(
@@ -140,7 +174,7 @@ server.registerTool(
     annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
   },
   ({ credentialId, market, side, size }) =>
-    guard(() => callMithril({ operation: "placeMarketOrder", credentialId, market, side, size })),
+    guard(() => dispatch("placeMarketOrder", { credentialId, market, side, size })),
 );
 
 server.registerTool(
@@ -152,7 +186,7 @@ server.registerTool(
     annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
   },
   ({ credentialId, market, orderId }) =>
-    guard(() => callMithril({ operation: "cancelOrder", credentialId, market, orderId })),
+    guard(() => dispatch("cancelOrder", { credentialId, market, orderId })),
 );
 
 server.registerTool(
@@ -164,7 +198,7 @@ server.registerTool(
     annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
   },
   ({ credentialId, market, leverage }) =>
-    guard(() => callMithril({ operation: "setLeverage", credentialId, market, leverage })),
+    guard(() => dispatch("setLeverage", { credentialId, market, leverage })),
 );
 
 server.registerTool(
@@ -175,24 +209,24 @@ server.registerTool(
     inputSchema: { credentialId },
     annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
   },
-  ({ credentialId }) => guard(() => callMithril({ operation: "closeAllPositions", credentialId })),
+  ({ credentialId }) => guard(() => dispatch("closeAllPositions", { credentialId })),
 );
 
-/* ---------------- Prediction markets — keyless public data ---------------- */
+/* ---------------- Prediction markets — keyless ---------------- */
 
 server.registerTool(
   "mithril_predictions_get_markets",
   {
     title: "Predictions · markets",
     description:
-      "Get current prediction markets and prices from Polymarket or Kalshi. Keyless public data — no API key needed.",
+      "Get current prediction markets and prices from Polymarket or Kalshi. Keyless public data.",
     inputSchema: { venue: z.enum(["polymarket", "kalshi"]) },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
-  ({ venue }) => guard(() => getPublic(`/predictions?venue=${venue}`)),
+  ({ venue }) => guard(() => dispatch("getPredictions", { venue })),
 );
 
-/* ---------------- Yield — keyless public data ---------------- */
+/* ---------------- Yield — keyless ---------------- */
 
 server.registerTool(
   "mithril_yield_list",
@@ -207,14 +241,7 @@ server.registerTool(
     },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
-  ({ type, network, limit }) =>
-    guard(() => {
-      const p = new URLSearchParams({ resource: "yields" });
-      if (type) p.set("type", type);
-      if (network) p.set("network", network);
-      if (limit) p.set("limit", String(limit));
-      return getPublic(`/yield?${p.toString()}`);
-    }),
+  ({ type, network, limit }) => guard(() => dispatch("getYields", { type, network, limit })),
 );
 
 server.registerTool(
@@ -226,7 +253,7 @@ server.registerTool(
     inputSchema: { id: z.string() },
     annotations: { readOnlyHint: true, openWorldHint: true },
   },
-  ({ id }) => guard(() => getPublic(`/yield?resource=yield&id=${encodeURIComponent(id)}`)),
+  ({ id }) => guard(() => dispatch("getYield", { id })),
 );
 
 const transport = new StdioServerTransport();
