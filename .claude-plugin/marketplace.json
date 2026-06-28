@@ -1,0 +1,16 @@
+{
+  "name": "mithril",
+  "owner": { "name": "Mithril", "url": "https://mithril.money" },
+  "metadata": {
+    "description": "Agent-native skills for crypto trading via the Mithril API — DEX perps, prediction markets, and DeFi yield. One normalized interface across 8 DEXes and growing.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "mithril",
+      "source": "./",
+      "description": "Mithril skills: DEX perps, prediction markets, and DeFi yield — read markets and trade through one normalized API. Bring your own key; Mithril never custodies funds.",
+      "version": "0.1.0"
+    }
+  ]
+}

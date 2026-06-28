@@ -1,0 +1,8 @@
+{
+  "name": "mithril",
+  "version": "0.1.0",
+  "description": "Agent-native skills for crypto trading via the Mithril API — DEX perps, prediction markets, and DeFi yield.",
+  "author": { "name": "Mithril", "url": "https://mithril.money" },
+  "homepage": "https://mithril.money",
+  "keywords": ["mcp", "crypto", "trading", "defi", "perpetuals", "prediction-markets", "yield", "claude-skills"]
+}
