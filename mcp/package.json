@@ -1,6 +1,6 @@
 {
   "name": "@mithril/mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Mithril MCP server — one portal for crypto trading (DEX perps, prediction markets, DeFi yield) via the Mithril API. Bring your own key.",
   "type": "module",
   "bin": { "mithril-mcp": "dist/index.js" },

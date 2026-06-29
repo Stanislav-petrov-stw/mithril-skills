@@ -20,11 +20,11 @@ Open the app and click **"walk the demo"** to step through the full flow with no
    `status → registerCredentialFromSignature` (Call 1, returns EIP-712 `typed_data`)
    → **one signature** → Call 2 → a server-custodied, **trade-only** `credentialId`.
    (Verified end-to-end against the live API — a throwaway wallet → a real credentialId.)
-3. **Fund** — card / Venmo / PayPal / Cash App via an on-ramp (peer.xyz no-KYC, or Stripe). Funds land in the user's own wallet.
+3. **Fund** — with a card or a no-KYC on-ramp. Funds land in the user's own wallet.
 4. **Trade** — metered in Mithril credits via the agent key.
 
 ## Going live
 
-Set `VITE_ONBOARD_API` to a backend endpoint that holds the **Mithril platform key** and runs the two `registerCredentialFromSignature` calls server-side (the client only signs). That endpoint + the platform key are the one remaining piece (pending the multi-tenant key-scoping confirmation). Until then, the app walks the flow in demo mode.
+Set `VITE_ONBOARD_API` to a backend that runs the two `registerCredentialFromSignature` calls server-side (the client only signs), using one **app key + a per-user email-verified session** — the model that lets a single app key trade every user's agent wallet. We've run this flow live end-to-end (a throwaway wallet → a real `credentialId`); this public example ships with a demo walk so it runs with zero setup.
 
 > Custody-safe by design: the agent key is **trade-only** (cannot withdraw); funds stay in the user's wallet; KYC + card are handled by the on-ramp provider.
