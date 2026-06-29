@@ -59,6 +59,13 @@
   .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
   .vcard{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:26px 20px;display:flex;flex-direction:column;align-items:center;gap:12px;font-weight:700;font-size:15px}
   .vdot{width:30px;height:30px;border-radius:9px}
+  .showcase{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+  .scard{display:block;background:var(--panel);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:border-color .2s,transform .2s}
+  .scard:hover{border-color:#2f6f55;transform:translateY(-2px)}
+  .scard video,.scard img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#0b0f15}
+  .scbody{padding:17px 20px}
+  .scbody b{font-size:17px}.scbody p{color:var(--muted);font-size:13.5px;margin:6px 0 10px}
+  .slink{color:var(--em);font-size:13px;font-weight:700}
   .final{text-align:center}
   footer{border-top:1px solid #11161d;padding:28px 0;color:var(--faint);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
   @media(max-width:820px){h1{font-size:40px}.feat,.csteps{grid-template-columns:1fr}.feat.rev .demo{order:0}.grid{grid-template-columns:1fr 1fr}}
@@ -161,6 +168,29 @@
         <p>Scan DeFi yield across chains by APY and TVL, and pull live prediction-market prices from Polymarket and Kalshi — no key required. Perfect for dashboards, scanners, and signal agents.</p>
         <a class="btn g" href="https://github.com/Stanislav-petrov-stw/mithril-skills/tree/main/skills">Browse the skills →</a>
       </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="kicker">BUILT WITH MITHRIL</div>
+    <p class="lede" style="margin:6px auto 0">Real crypto apps shipped on the Mithril API — the kind your agent can build with the MCP.</p>
+    <div class="showcase">
+      <a class="scard" href="https://mithril-pets-demo.vercel.app" target="_blank" rel="noopener">
+        <video src="showcase/pets.mp4" autoplay muted loop playsinline></video>
+        <div class="scbody"><b>Savings Tamagotchi</b><p>A pet that grows as your on-chain savings earn yield — gamified DeFi.</p><span class="slink">Live demo →</span></div>
+      </a>
+      <a class="scard" href="https://spacex-delta-neutral.mithril.money/" target="_blank" rel="noopener">
+        <video src="showcase/spacex.mp4" autoplay muted loop playsinline></video>
+        <div class="scbody"><b>SpaceX Delta-Neutral</b><p>A market-neutral funding desk — a rocket that climbs as the strategy earns.</p><span class="slink">Live demo →</span></div>
+      </a>
+      <a class="scard" href="https://haven-utopia-demo-samoth-mithril-projects.vercel.app" target="_blank" rel="noopener">
+        <video src="showcase/haven.mp4" autoplay muted loop playsinline></video>
+        <div class="scbody"><b>Haven Island</b><p>A calm savings island — deposit, earn yield, watch your world grow.</p><span class="slink">Live demo →</span></div>
+      </a>
+      <a class="scard" href="https://meme-fantasy-demo.vercel.app" target="_blank" rel="noopener">
+        <img src="showcase/memefantasy.jpg" alt="" />
+        <div class="scbody"><b>Meme Fantasy Draft</b><p>Draft meme tokens into a fantasy lineup and battle on live performance.</p><span class="slink">Live demo →</span></div>
+      </a>
     </div>
   </section>
 
