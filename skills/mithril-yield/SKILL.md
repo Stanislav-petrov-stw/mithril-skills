@@ -33,3 +33,17 @@ Each opportunity carries APY, TVL, token, protocol, and metadata — great for y
 
 - **Read-only + keyless** — safe to call freely.
 - Entering / exiting positions (`resource=enter|exit`) prepares transactions the **user signs in their own wallet** — Mithril never custodies funds. Confirm any position change with the user first.
+
+## Error handling — always explain in plain English
+
+When `resource=enter|exit` fails, **explain it in one plain sentence and suggest a fix** — never surface a raw code like `InvalidArgumentError`. Always name the **asset + chain** so the user knows exactly what to change.
+
+| Cause | Tell the user (cause + fix) |
+|---|---|
+| **Wrong chain** — e.g. an Ethereum `0x…` wallet for a Solana pool → `InvalidArgumentError` / invalid address | "This pool is on **Solana**, but your wallet is Ethereum-family — connect a Solana wallet, or pick a pool on your wallet's chain." |
+| Pool paused (`status.enter === false`) | "This pool has paused new deposits right now — try another pool." |
+| Below the pool minimum (`args.enter.args.amount.minimum`) | "The minimum deposit for this pool is X — increase the amount." |
+| Insufficient balance | "You don't have enough {asset} for this deposit — lower the amount or add funds." |
+| Not enough gas token | "You need a little {chain} gas token to cover the network fee." |
+
+Check `status.enter` and the token's `network` **before** preparing a deposit — that lets you tell the user about a chain mismatch or a paused pool without a failed round-trip.

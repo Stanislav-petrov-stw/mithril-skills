@@ -61,6 +61,23 @@ Place a limit order:
 
 - **Reads are free to call; writes move real money.** Always surface the order (market, side, size, price) and get explicit user confirmation before any `place*`, `cancel*`, `setLeverage`, or `closeAllPositions`.
 - **You bring your own key.** Mithril routes the call to the exchange; it never holds the user's funds.
-- **Errors** return `{ "success": false, "error": "...", "code": "..." }` — surface `code` to the user; do not retry blindly on a 4xx.
+- **Errors** are never shown to the user as a raw code — see *Error handling* below.
+
+## Error handling — always explain in plain English
+
+Errors return `{ "success": false, "error": "...", "code": "..." }`. **Translate the `code` into one sentence** that says what went wrong and what to do — never surface a bare code like `INVALID_API_KEY`. Don't retry blindly on a 4xx.
+
+| Code / cause | Tell the user (cause + fix) |
+|---|---|
+| `INVALID_API_KEY` / 401 | "Your API key was rejected — check it starts with `mt_live_`, or regenerate it at mithril.money." |
+| `INSUFFICIENT_BALANCE` / margin | "Not enough balance or margin on the exchange — lower the size or add funds." |
+| credential not found | "That account isn't connected — connect it (or pass the right credentialId) and retry." |
+| market not found | "Use the `BASE-USD-PERP` format (e.g. `BTC-USD-PERP`) and check it's listed on this venue." |
+| min size / too small | "The order is below the venue's minimum — increase the amount." |
+| leverage too high | "That leverage isn't allowed for this market — use a lower value." |
+| rate limit / 429 | "Rate-limited — wait a moment and try again." |
+| timeout / network | "The exchange didn't respond in time — retry; the venue may be busy." |
+
+**State the cause, then the next step.** Not "INSUFFICIENT_BALANCE" but "You don't have enough USDC margin on Hyperliquid for a 0.1 BTC order — reduce the size or deposit more."
 
 **Venues:** Hyperliquid · Paradex · Extended · Pacifica · Hibachi · Aftermath · Carbon · Avantis

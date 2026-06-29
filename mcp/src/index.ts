@@ -39,7 +39,7 @@ async function dispatch(operation: string, params: Record<string, unknown>): Pro
       headers: { "content-type": "application/json", authorization: `Bearer ${SESSION}` },
       body: JSON.stringify({ operation, ...params }),
     });
-    return res.text();
+    return readOk(res);
   }
   if (PUBLIC_OPS.has(operation)) return directPublic(operation, params);
   if (!API_KEY) {
@@ -52,7 +52,7 @@ async function dispatch(operation: string, params: Record<string, unknown>): Pro
     headers: { "content-type": "application/json", "x-api-key": API_KEY },
     body: JSON.stringify({ operation, ...params }),
   });
-  return res.text();
+  return readOk(res);
 }
 
 /** BYO-mode keyless reads: hit the public proxy directly. */
@@ -72,7 +72,7 @@ async function directPublic(op: string, params: Record<string, unknown>): Promis
     return JSON.stringify({ error: "unknown_public_op", op });
   }
   const res = await fetch(`${PUBLIC_BASE}${path}`);
-  return res.text();
+  return readOk(res);
 }
 
 const text = (t: string) => ({ content: [{ type: "text" as const, text: t }] });
@@ -80,11 +80,82 @@ const errored = (m: string) => ({
   content: [{ type: "text" as const, text: `Error: ${m}` }],
   isError: true,
 });
+
+/**
+ * Turn a raw Mithril API / gateway error into ONE plain-English sentence that
+ * says what went wrong and what to do — so the agent can relay it to a human
+ * instead of surfacing a bare code like "INVALID_API_KEY" or "SCOPE_VIOLATION".
+ */
+function humanize(raw: string): string {
+  let code = "", msg = "";
+  try {
+    const j = JSON.parse(raw);
+    code = String(j.code ?? j.error ?? "");
+    msg = String(j.message ?? (typeof j.error === "string" ? j.error : "") ?? "");
+  } catch {
+    msg = raw;
+  }
+  const k = `${code} ${msg}`.toLowerCase();
+  if (/insufficient_credits|out of credits/.test(k))
+    return "You're out of Mithril credits. Buy a credit pack at https://mithril.money to continue (reads are free up to a daily limit; writes cost credits).";
+  if (/session_required/.test(k))
+    return "This action needs a signed-in user. Provide the user's Mithril session (MITHRIL_SESSION_TOKEN), or use your own key (MITHRIL_API_KEY).";
+  if (/metered_execution_unconfigured/.test(k))
+    return "The credit-metered trade path isn't switched on yet. Use your own key (MITHRIL_API_KEY) for now.";
+  if (/invalid_api_key|invalid.*key|unauthorized|\b401\b/.test(k))
+    return "Your API key was rejected. Check MITHRIL_API_KEY (it should start with mt_live_) or regenerate it at https://mithril.money.";
+  if (/origin_not_allowed/.test(k))
+    return "This app key isn't allowed from here. Add your origin to the key's allowed origins in the Mithril portal.";
+  if (/scope_violation/.test(k))
+    return "That credential doesn't belong to this session/app. Use the credentialId created for this user.";
+  if (/email_required/.test(k))
+    return "This app needs the user to verify their email (magic link) before connecting a wallet.";
+  if (/tier_insufficient/.test(k))
+    return "Your plan tier doesn't include this operation. Upgrade at https://mithril.money.";
+  if (/credential.*not found|invalid credentialid|no credential|missing credential/.test(k))
+    return "That credentialId wasn't found. List the user's connected accounts and pass a valid credentialId.";
+  if (/insufficient.*(balance|margin|funds)/.test(k))
+    return "Not enough balance or margin on the exchange for this order. Lower the size or add funds.";
+  if (/market.*not found|invalid market|unknown market/.test(k))
+    return "That market wasn't found. Use the {BASE}-USD-PERP format (e.g. BTC-USD-PERP) and make sure it's listed on this venue.";
+  if (/(min|minimum).*(size|notional|order|amount)|too small|below.*min/.test(k))
+    return "The order is below the venue's minimum size. Increase the amount.";
+  if (/leverage/.test(k) && /max|exceed|invalid|too high/.test(k))
+    return "That leverage isn't allowed for this market. Use a lower value.";
+  if (/operation_not_allowed|unknown.?operation|unsupported|not allowed/.test(k))
+    return `That operation isn't available here${msg ? ` (${msg})` : ""}. Check the operation name and that the venue supports it.`;
+  if (/rate.?limit|too many requests|\b429\b/.test(k))
+    return "Rate limited — wait a moment and try again.";
+  if (/timeout|timed out|econn|network|fetch failed/.test(k))
+    return "The exchange didn't respond in time. Try again; if it keeps failing the venue may be down.";
+  // Readable fallback — a sentence, not a bare blob.
+  return (msg || raw || "Something went wrong.") + (code && code !== msg ? ` (${code})` : "");
+}
+
+/** A response is an error if the HTTP status is not ok, OR the body is an error envelope. */
+function bodyIsError(body: string, ok: boolean): boolean {
+  if (!ok) return true;
+  try {
+    const j = JSON.parse(body);
+    if (j && (j.error || j.code) && j.success !== true) return true;
+  } catch {
+    /* non-JSON 200 body — treat as success */
+  }
+  return false;
+}
+
+/** Read a fetch response, throwing a humanized error on any failure envelope. */
+async function readOk(res: Response): Promise<string> {
+  const body = await res.text();
+  if (bodyIsError(body, res.ok)) throw new Error(humanize(body));
+  return body;
+}
+
 async function guard(fn: () => Promise<string>) {
   try {
     return text(await fn());
   } catch (e) {
-    return errored(e instanceof Error ? e.message : String(e));
+    return errored(humanize(e instanceof Error ? e.message : String(e)));
   }
 }
 
