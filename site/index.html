@@ -91,15 +91,28 @@
   .scbody b{font-size:17px}.scbody p{color:var(--muted);font-size:13.5px;margin:6px 0 10px}
   .slink{color:var(--em);font-size:13px;font-weight:700}
   .final{text-align:center}
+  /* TEMPLATES GALLERY */
+  .tgroup{margin-top:28px}
+  .tgroup h3{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+  .tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .tcard{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s,transform .2s}
+  .tcard:hover{border-color:#2f6f55;transform:translateY(-2px)}
+  .tcard img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#0b0f15}
+  .tcbody{padding:11px 13px}
+  .tcbody b{font-size:14px;color:var(--text);display:block;line-height:1.2}
+  .tcat{margin-top:2px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--faint)}
+  .tlinks{margin-top:8px;font-size:12px;color:var(--em);font-weight:600}
+  .tlinks a:hover{text-decoration:underline}
+  .tlinks .sep{color:var(--faint);font-weight:400}
   footer{border-top:1px solid #11161d;padding:28px 0;color:var(--faint);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-  @media(max-width:820px){h1{font-size:40px}.feat,.csteps{grid-template-columns:1fr}.feat.rev .demo{order:0}.grid{grid-template-columns:1fr 1fr}.ctabs{justify-content:center}}
+  @media(max-width:820px){h1{font-size:40px}.feat,.csteps{grid-template-columns:1fr}.feat.rev .demo{order:0}.grid,.tgrid{grid-template-columns:1fr 1fr}.ctabs{justify-content:center}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <nav class="nav">
     <div class="brand"><img class="mk" src="icons/gem.png" alt="Mithril" /> Mithril</div>
-    <div class="navlinks"><a href="#toolkit">Skills</a><a href="https://github.com/Stanislav-petrov-stw/mithril-skills/tree/main/mcp">MCP</a><a href="#venues">Venues</a><a href="https://github.com/Stanislav-petrov-stw/mithril-skills">GitHub ★</a></div>
+    <div class="navlinks"><a href="#toolkit">Skills</a><a href="https://github.com/Stanislav-petrov-stw/mithril-skills/tree/main/mcp">MCP</a><a href="#templates">Templates</a><a href="#venues">Venues</a><a href="https://github.com/Stanislav-petrov-stw/mithril-skills">GitHub ★</a></div>
   </nav>
 
   <header class="hero">
@@ -205,6 +218,63 @@
         <div class="scbody"><b>Meme Fantasy Draft</b><p>Draft meme tokens into a fantasy lineup and battle on live performance.</p><span class="slink">Live demo →</span></div>
       </a>
     </div>
+  </section>
+
+  <section class="sec" id="templates">
+    <div class="kicker">FORK A TEMPLATE</div>
+    <p class="lede" style="margin:6px auto 0">26 open-source crypto apps — fork, run, ship. Each is a Vite + React app on the Mithril API. Demos are live; fork any with one command.</p>
+      <div class="tgroup">
+        <h3>📊 Dashboards</h3>
+        <div class="tgrid">
+          <div class="tcard"><a href="https://aetherium.mithril.money" target="_blank" rel="noopener"><img src="templates/aetherium.png" alt="Aetherium" loading="lazy" /></a><div class="tcbody"><b>Aetherium</b><div class="tcat">dashboard</div><div class="tlinks"><a href="https://aetherium.mithril.money" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/aetherium" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://hyperboard-template-v1.mithril.money/" target="_blank" rel="noopener"><img src="templates/hyperboard.jpg" alt="HyperBoard — Crypto Market Dashboard" loading="lazy" /></a><div class="tcbody"><b>HyperBoard — Crypto Market Dashboard</b><div class="tcat">dashboard</div><div class="tlinks"><a href="https://hyperboard-template-v1.mithril.money/" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/hyperboard" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://hyperviztemplate-v1.mithril.money/" target="_blank" rel="noopener"><img src="templates/hyperviz.jpg" alt="HyperViz" loading="lazy" /></a><div class="tcbody"><b>HyperViz</b><div class="tcat">dashboard</div><div class="tlinks"><a href="https://hyperviztemplate-v1.mithril.money/" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/hyperviz" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://oddsboardtemplate-v1.mithril.money/" target="_blank" rel="noopener"><img src="templates/polyviz.jpg" alt="OddsBoard" loading="lazy" /></a><div class="tcbody"><b>OddsBoard</b><div class="tcat">dashboard</div><div class="tlinks"><a href="https://oddsboardtemplate-v1.mithril.money/" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/polyviz" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://yield-preview.vercel.app" target="_blank" rel="noopener"><img src="templates/yield.jpg" alt="Yield" loading="lazy" /></a><div class="tcbody"><b>Yield</b><div class="tcat">dashboard</div><div class="tlinks"><a href="https://yield-preview.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/yield" target="_blank" rel="noopener">Fork</a></div></div></div>
+        </div>
+      </div>
+      <div class="tgroup">
+        <h3>🔭 Scanners & Delta-Neutral</h3>
+        <div class="tgrid">
+          <div class="tcard"><a href="https://commodities-delta-neutral.mithril.money/" target="_blank" rel="noopener"><img src="templates/dn-commodities.jpg" alt="Commodities Delta-Neutral" loading="lazy" /></a><div class="tcbody"><b>Commodities Delta-Neutral</b><div class="tcat">scanner</div><div class="tlinks"><a href="https://commodities-delta-neutral.mithril.money/" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/dn-commodities" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://delta-neutral-multi-dex-template-v1.mithril.money/" target="_blank" rel="noopener"><img src="templates/dnv2.jpeg" alt="Delta Neutral - Multi Dex" loading="lazy" /></a><div class="tcbody"><b>Delta Neutral - Multi Dex</b><div class="tcat">scanner</div><div class="tlinks"><a href="https://delta-neutral-multi-dex-template-v1.mithril.money/" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/dnv2" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://spacex-delta-neutral.mithril.money/" target="_blank" rel="noopener"><img src="templates/dn-spacex.jpg" alt="SpaceX Delta-Neutral" loading="lazy" /></a><div class="tcbody"><b>SpaceX Delta-Neutral</b><div class="tcat">scanner</div><div class="tlinks"><a href="https://spacex-delta-neutral.mithril.money/" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/dn-spacex" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://stocks-delta-neutral.mithril.money/" target="_blank" rel="noopener"><img src="templates/dn-stocks.jpg" alt="Stocks Delta-Neutral" loading="lazy" /></a><div class="tcbody"><b>Stocks Delta-Neutral</b><div class="tcat">scanner</div><div class="tlinks"><a href="https://stocks-delta-neutral.mithril.money/" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/dn-stocks" target="_blank" rel="noopener">Fork</a></div></div></div>
+        </div>
+      </div>
+      <div class="tgroup">
+        <h3>🎮 Games</h3>
+        <div class="tgrid">
+          <div class="tcard"><a href="https://demo-haven.vercel.app" target="_blank" rel="noopener"><img src="templates/haven.png" alt="Haven" loading="lazy" /></a><div class="tcbody"><b>Haven</b><div class="tcat">games</div><div class="tlinks"><a href="https://demo-haven.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/haven" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://haven-utopia-demo-samoth-mithril-projects.vercel.app" target="_blank" rel="noopener"><img src="templates/haven-utopia.jpg" alt="Haven Island" loading="lazy" /></a><div class="tcbody"><b>Haven Island</b><div class="tcat">games</div><div class="tlinks"><a href="https://haven-utopia-demo-samoth-mithril-projects.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/haven-utopia" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://meme-fantasy-demo.vercel.app" target="_blank" rel="noopener"><img src="templates/memefantasy.jpeg" alt="Meme Fantasy Draft" loading="lazy" /></a><div class="tcbody"><b>Meme Fantasy Draft</b><div class="tcat">games</div><div class="tlinks"><a href="https://meme-fantasy-demo.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/memefantasy" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://mithril-pets-demo.vercel.app" target="_blank" rel="noopener"><img src="templates/mithril-pets.jpg" alt="Mithril Pets" loading="lazy" /></a><div class="tcbody"><b>Mithril Pets</b><div class="tcat">games</div><div class="tlinks"><a href="https://mithril-pets-demo.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/mithril-pets" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://rocketx.mithril.money" target="_blank" rel="noopener"><img src="templates/rocketx.png" alt="RocketX" loading="lazy" /></a><div class="tcbody"><b>RocketX</b><div class="tcat">games</div><div class="tlinks"><a href="https://rocketx.mithril.money" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/rocketx" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://the-mirror-demo.vercel.app" target="_blank" rel="noopener"><img src="templates/themirror.jpeg" alt="The Mirror" loading="lazy" /></a><div class="tcbody"><b>The Mirror</b><div class="tcat">games</div><div class="tlinks"><a href="https://the-mirror-demo.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/themirror" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://trade-casino-demo.vercel.app" target="_blank" rel="noopener"><img src="templates/casino.jpg" alt="Trade Casino" loading="lazy" /></a><div class="tcbody"><b>Trade Casino</b><div class="tcat">games</div><div class="tlinks"><a href="https://trade-casino-demo.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/casino" target="_blank" rel="noopener">Fork</a></div></div></div>
+        </div>
+      </div>
+      <div class="tgroup">
+        <h3>⚡ Trading & Market-Making</h3>
+        <div class="tgrid">
+          <div class="tcard"><a href="https://demo-mm-extended.vercel.app" target="_blank" rel="noopener"><img src="templates/mm-extended.jpg" alt="Extended Market Maker" loading="lazy" /></a><div class="tcbody"><b>Extended Market Maker</b><div class="tcat">trading</div><div class="tlinks"><a href="https://demo-mm-extended.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/mm-extended" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://helix.mithril.money" target="_blank" rel="noopener"><img src="templates/helix.png" alt="Helix" loading="lazy" /></a><div class="tcbody"><b>Helix</b><div class="tcat">trading</div><div class="tlinks"><a href="https://helix.mithril.money" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/helix" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://demo-mm-hyperliquid.vercel.app" target="_blank" rel="noopener"><img src="templates/mm-hyperliquid.jpg" alt="Hyperliquid Market Maker" loading="lazy" /></a><div class="tcbody"><b>Hyperliquid Market Maker</b><div class="tcat">trading</div><div class="tlinks"><a href="https://demo-mm-hyperliquid.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/mm-hyperliquid" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://market-maker-demo.vercel.app" target="_blank" rel="noopener"><img src="templates/market-maker.jpg" alt="Market Maker" loading="lazy" /></a><div class="tcbody"><b>Market Maker</b><div class="tcat">trading</div><div class="tlinks"><a href="https://market-maker-demo.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/market-maker" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://demo-mm-pacifica.vercel.app" target="_blank" rel="noopener"><img src="templates/mm-pacifica.jpg" alt="Pacifica Market Maker" loading="lazy" /></a><div class="tcbody"><b>Pacifica Market Maker</b><div class="tcat">trading</div><div class="tlinks"><a href="https://demo-mm-pacifica.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/mm-pacifica" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://demo-mm-paradex.vercel.app" target="_blank" rel="noopener"><img src="templates/mm-paradex.jpg" alt="Paradex Market Maker" loading="lazy" /></a><div class="tcbody"><b>Paradex Market Maker</b><div class="tcat">trading</div><div class="tlinks"><a href="https://demo-mm-paradex.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/mm-paradex" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://signaldesk-ta-demo.vercel.app" target="_blank" rel="noopener"><img src="templates/signaldesk.jpg" alt="SignalDesk" loading="lazy" /></a><div class="tcbody"><b>SignalDesk</b><div class="tcat">trading</div><div class="tlinks"><a href="https://signaldesk-ta-demo.vercel.app" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/signaldesk" target="_blank" rel="noopener">Fork</a></div></div></div>
+        </div>
+      </div>
+      <div class="tgroup">
+        <h3>✨ General</h3>
+        <div class="tgrid">
+          <div class="tcard"><a href="https://artera.mithril.money" target="_blank" rel="noopener"><img src="templates/artera.png" alt="ARTERA" loading="lazy" /></a><div class="tcbody"><b>ARTERA</b><div class="tcat">general</div><div class="tlinks"><a href="https://artera.mithril.money" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/artera" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://masq.mithril.money" target="_blank" rel="noopener"><img src="templates/masq.png" alt="MASQ" loading="lazy" /></a><div class="tcbody"><b>MASQ</b><div class="tcat">general</div><div class="tlinks"><a href="https://masq.mithril.money" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/masq" target="_blank" rel="noopener">Fork</a></div></div></div>
+          <div class="tcard"><a href="https://vanguard.mithril.money" target="_blank" rel="noopener"><img src="templates/vanguard.png" alt="Vanguard" loading="lazy" /></a><div class="tcbody"><b>Vanguard</b><div class="tcat">general</div><div class="tlinks"><a href="https://vanguard.mithril.money" target="_blank" rel="noopener">Demo ↗</a> <span class="sep">·</span> <a href="https://github.com/Stanislav-petrov-stw/mithril-templates/tree/main/templates/vanguard" target="_blank" rel="noopener">Fork</a></div></div></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:34px"><a class="btn p" href="https://github.com/Stanislav-petrov-stw/mithril-templates">Browse all 26 on GitHub →</a></div>
   </section>
 
   <section class="sec" id="venues">
