@@ -327,5 +327,49 @@ server.registerTool(
   ({ id }) => guard(() => dispatch("getYield", { id })),
 );
 
+/* ---------------- Design — build on-brand Mithril apps ---------------- */
+
+const DESIGN_SYSTEM = `# Mithril Design System
+
+Build crypto-finance apps that look designed, not defaulted — dark, calm, data-first, with a signature soft-neumorphic option.
+
+## Tokens
+- Base (pick one): CLASSIC DARK bg #0a0a0a / panel #111114 / border #222 / text gray-200; or SOFT NEUMORPHIC bg #1a1e25, no borders (shape with shadows), text #eef2f6, muted #9aa6b4.
+- Accent (one per app): emerald #34d399 (primary/positive/APY), indigo #6366f1 (secondary), red #ef4444 (errors/negative).
+- Type: ui-sans-serif; tight tracking on big headings (-0.02em, weight 800); ui-monospace for code/addresses/numbers.
+
+## Neumorphic recipe (signature)
+On #1a1e25 (must be mid-dark): --sd:#0f1218; --sl:#262c37.
+- Raised: box-shadow: 6px 6px 14px var(--sd), -6px -6px 14px var(--sl)
+- Inset (inputs/code/tab-track): box-shadow: inset 4px 4px 9px var(--sd), inset -4px -4px 9px var(--sl)
+- Buttons raised; pressed = inset on :active. Keep text HIGH CONTRAST (the one trap).
+
+## Components
+- Cards: rounded-2xl, raised, hover translateY(-3px).
+- Tabs: inset track + raised active chip; tabs must change the content below.
+- Code/inputs: inset wells; WRAP long content (never truncate); Copy button in a top gutter, never overlapping text.
+- Data rows: muted label left, white/emerald value right, thin separators.
+- Charts: recharts, emerald on dark, value labels ON the bars (not just tooltips).
+- "Trade with a sentence": user chat bubble -> structured result card (market/side/size/confirm).
+
+## Rules
+1. Contrast first (>= AA); softness never beats readability.
+2. One accent (emerald leads). 3. Real data > placeholders; label illustrative values "example".
+4. Errors in plain English with a fix, never a raw code. 5. Reflow to one column on mobile; never squish a grid column.
+
+Live forkable examples: github.com/Stanislav-petrov-stw/mithril-templates`;
+
+server.registerTool(
+  "mithril_design_system",
+  {
+    title: "Design · Mithril design system",
+    description:
+      "Mithril's design system for building polished crypto-finance apps — dark + soft-neumorphic tokens, color accents, and component patterns (cards, tabs, charts, the 'trade with a sentence' UI). Call this BEFORE building or styling a Mithril app so it looks on-brand instead of generic. Keyless.",
+    inputSchema: {},
+    annotations: { readOnlyHint: true },
+  },
+  () => text(DESIGN_SYSTEM),
+);
+
 const transport = new StdioServerTransport();
 await server.connect(transport);

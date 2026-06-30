@@ -11,6 +11,7 @@ Agent-native **skills** + an **MCP portal** for [Mithril](https://mithril.money)
 | [`mithril-dex`](skills/mithril-dex/) | Perp trading across Hyperliquid, Paradex, Extended, Pacifica, Hibachi, Aftermath, Carbon, Avantis |
 | [`mithril-prediction-markets`](skills/mithril-prediction-markets/) | Polymarket + Kalshi — keyless market data + authenticated trading |
 | [`mithril-yield`](skills/mithril-yield/) | DeFi yields (lending / staking / LP / vaults) across chains — keyless |
+| [`mithril-design`](skills/mithril-design/) | Mithril's design system — dark + soft-neumorphic tokens + component patterns, so agent-built apps look on-brand |
 
 More integrations land on a conveyor belt — **CEX, FX, stocks, commodities, RWA** — each a new branded Mithril skill that also joins the unified MCP portal.
 

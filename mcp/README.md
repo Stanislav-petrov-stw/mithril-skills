@@ -45,6 +45,7 @@ Keyless tools (predictions, yield) work in either mode. Get a session token or a
 | **DEX** (perps) | `mithril_dex_get_markets`, `…get_balance`, `…get_positions`, `…get_fills`, `…place_limit_order`\*, `…place_market_order`\*, `…cancel_order`\*, `…set_leverage`\*, `…close_all_positions`\* | |
 | **Prediction markets** | `mithril_predictions_get_markets` (Polymarket, Kalshi) | keyless |
 | **Yield** | `mithril_yield_list`, `mithril_yield_get` | keyless |
+| **Design** | `mithril_design_system` | keyless — returns Mithril's design system so an agent builds on-brand apps |
 
 \* Write tools move real funds and are flagged `destructive` — your MCP client confirms before they run.
 
