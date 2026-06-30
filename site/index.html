@@ -335,7 +335,7 @@
   var ABS_NOTE = "Use the absolute path — MCP args don't expand ~.";
 
   var BUILD_STEP = { t:"Clone & build the server", p:"Grab the open-source repo and build the MCP — one block.", code:BUILD };
-  function signInStep(){ return { t:"Sign in & trade", p:"Use Mithril credits (buy once, trade) or bring your own mt_live_ key. Then just ask your agent to read a market or place a trade.", cta:true }; }
+  function signInStep(){ return { t:"Sign in & trade", p:"Create a free account at <b>mithril.money</b> — you get <b>free credits</b> to start (top up to scale, nothing to manage). Already have a <b>Mithril API key</b>? Paste that instead. Then just ask your agent to read a market or place a trade.", cta:true }; }
 
   // step 2 (add the server) per surface + client
   var STEP2 = {
@@ -359,7 +359,7 @@
         return [
           { t:"Add the Mithril marketplace", p:"In Claude Code, add the open-source skill marketplace.", code:"/plugin marketplace add Stanislav-petrov-stw/mithril-skills" },
           { t:"Install the skill", p:"Install the Mithril plugin — DEX, prediction-market, and yield skills.", code:"/plugin install mithril@mithril" },
-          { t:"Add your key & trade", p:"Paste your mt_live_ key when asked. Your agent now speaks the Mithril API directly — no server to run.", cta:true }
+          { t:"Add your key & trade", p:"Paste your <b>Mithril API key</b> (grab one free at <b>mithril.money</b>) when asked. Your agent now speaks the Mithril API directly — no server to run.", cta:true }
         ];
       }
       return [ { single:true, t:"Skills are Claude Code-native", p:"The Skill packaging is built for Claude Code. For " + (c==="cursor"?"Cursor":"Codex") + ", use the MCP tab — the same tools through one connector.", switchTo:"mcp" } ];
@@ -387,7 +387,7 @@
     h += '<p>'+s.p+'</p>';
     if(s.code) h += codeblk(s.code);
     if(s.note) h += '<div class="stepnote">'+s.note+'</div>';
-    if(s.cta) h += '<a class="btn p" style="margin-top:14px" href="https://mithril.money" target="_blank" rel="noopener">Use credits or your own key ↗</a>';
+    if(s.cta) h += '<a class="btn p" style="margin-top:14px" href="https://mithril.money" target="_blank" rel="noopener">Get free credits → mithril.money ↗</a>';
     if(s.switchTo) h += '<span class="switchlink" data-surf="'+s.switchTo+'">Switch to '+s.switchTo.toUpperCase()+' →</span>';
     h += '</div>';
     return h;
