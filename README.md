@@ -4,6 +4,8 @@ Agent-native **skills** + an **MCP portal** for [Mithril](https://mithril.money)
 
 > Mithril routes calls to the exchanges — it **never custodies funds**. You bring your own API key.
 
+**Live:** [mcp.mithril.money](https://mcp.mithril.money) · **Fork a template:** [26 open-source crypto apps](https://github.com/Stanislav-petrov-stw/mithril-templates)
+
 ## Skills
 
 | Skill | What it does |
@@ -23,7 +25,34 @@ More integrations land on a conveyor belt — **CEX, FX, stocks, commodities, RW
 
 ## The MCP
 
-The [`mcp/`](mcp/) server is the portal — connect once and an agent gets every skill through a single connection (Claude Desktop, Cursor, Claude Code). Bring your own key, or use Mithril credits.
+The [`mcp/`](mcp/) server is the portal — connect once and an agent gets **every skill through a single connection** (Claude Desktop, Cursor, Claude Code). Market, prediction-price, and yield **reads are keyless**; trading uses your own Mithril key.
+
+### Connect it
+
+```bash
+git clone https://github.com/Stanislav-petrov-stw/mithril-skills
+cd mithril-skills/mcp
+npm install && npm run build
+```
+
+Add it to your agent's MCP config (Claude Desktop `claude_desktop_config.json`, Cursor, or Claude Code), pointing at the built file with its **absolute** path:
+
+```json
+{
+  "mcpServers": {
+    "mithril": {
+      "command": "node",
+      "args": ["/absolute/path/to/mithril-skills/mcp/dist/index.js"],
+      "env": { "MITHRIL_API_KEY": "" }
+    }
+  }
+}
+```
+
+- **Keyless** — leave `env` empty and you get live markets, prediction prices, and DeFi yields immediately.
+- **Trade** — set `MITHRIL_API_KEY` to your `mt_live_…` key from [mithril.money](https://mithril.money) (or `MITHRIL_SESSION_TOKEN` to pay with Mithril credits).
+
+Restart your agent; it lists **13 tools** across DEX trading, prediction markets, yield, and the design system. Reads work out of the box — try *"list the top DeFi yields"* or *"show Hyperliquid markets."*
 
 ## What's coming
 
