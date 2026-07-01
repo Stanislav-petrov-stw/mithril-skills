@@ -1,0 +1,20 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Stanislav-petrov-stw/mithril-mcp",
+  "title": "Mithril",
+  "description": "One MCP to trade perps across 8 DEXes, read prediction markets (Polymarket, Kalshi), and scan DeFi yield — from any AI agent. Reads are keyless; writes confirm before they run; never custodies funds.",
+  "version": "0.2.0",
+  "repository": {
+    "url": "https://github.com/Stanislav-petrov-stw/mithril-skills",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@mithril-money/mcp",
+      "version": "0.2.0",
+      "transport": { "type": "stdio" }
+    }
+  ]
+}

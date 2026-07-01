@@ -1,0 +1,14 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      mithrilSessionToken:
+        type: string
+        description: Your Mithril session token (sign in at mithril.money) — meters calls in credits. Optional.
+      mithrilApiKey:
+        type: string
+        description: Your Mithril API key (mt_live_..., from mithril.money) for authenticated calls. Optional — omit for keyless reads (markets, prediction prices, yield).
+  commandFunction:
+    |-
+    config => ({ command: 'npx', args: ['-y', '@mithril-money/mcp'], env: { ...(config.mithrilSessionToken ? { MITHRIL_SESSION_TOKEN: config.mithrilSessionToken } : {}), ...(config.mithrilApiKey ? { MITHRIL_API_KEY: config.mithrilApiKey } : {}) } })

@@ -1,17 +1,26 @@
 {
-  "name": "@mithril/mcp",
+  "name": "@mithril-money/mcp",
   "version": "0.2.0",
-  "description": "Mithril MCP server — one portal for crypto trading (DEX perps, prediction markets, DeFi yield) via the Mithril API. Bring your own key.",
+  "description": "Mithril MCP server — one portal for crypto trading (DEX perps, prediction markets, DeFi yield) via the Mithril API. Bring your own key or use credits.",
   "type": "module",
   "bin": { "mithril-mcp": "dist/index.js" },
   "main": "dist/index.js",
   "files": ["dist"],
   "scripts": {
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": ["mcp", "model-context-protocol", "crypto", "trading", "defi", "perpetuals", "prediction-markets", "yield", "mithril"],
+  "keywords": ["mcp", "model-context-protocol", "crypto", "trading", "defi", "perpetuals", "prediction-markets", "yield", "hyperliquid", "mithril"],
   "license": "MIT",
+  "homepage": "https://skills.mithril.money",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stanislav-petrov-stw/mithril-skills.git",
+    "directory": "mcp"
+  },
+  "bugs": { "url": "https://github.com/Stanislav-petrov-stw/mithril-skills/issues" },
+  "publishConfig": { "access": "public" },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "zod": "^3.23.0"
