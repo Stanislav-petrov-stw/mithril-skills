@@ -81,6 +81,15 @@ const errored = (m: string) => ({
   isError: true,
 });
 
+/** Parse a JSON string, or return the raw string unchanged if it isn't JSON. */
+const tryJson = (s: string): unknown => {
+  try {
+    return JSON.parse(s);
+  } catch {
+    return s;
+  }
+};
+
 /**
  * Turn a raw Mithril API / gateway error into ONE plain-English sentence that
  * says what went wrong and what to do — so the agent can relay it to a human
@@ -276,11 +285,35 @@ server.registerTool(
   "mithril_dex_close_all_positions",
   {
     title: "DEX · close all positions",
-    description: "Flatten ALL positions on the venue. MOVES REAL FUNDS — confirm with the user first.",
-    inputSchema: { credentialId },
+    description:
+      "Flatten ALL open positions on the venue — IRREVERSIBLE and MOVES REAL FUNDS. Two-step by design: call it WITHOUT confirm first to preview exactly which positions would be closed, show that to the user, and only after they explicitly approve call again with confirm: true to execute.",
+    inputSchema: {
+      credentialId,
+      confirm: z
+        .boolean()
+        .optional()
+        .describe(
+          "Leave unset/false to PREVIEW what would close (nothing is closed). Set true ONLY after the user has seen the preview and explicitly approved — this flattens every position at market.",
+        ),
+    },
     annotations: { readOnlyHint: false, destructiveHint: true, openWorldHint: true },
   },
-  ({ credentialId }) => guard(() => dispatch("closeAllPositions", { credentialId })),
+  ({ credentialId, confirm }) =>
+    guard(async () => {
+      if (confirm !== true) {
+        // Preview path — fetch the actual positions so the agent must surface
+        // exactly what would be flattened to the user before a second, explicit call.
+        const positions = await dispatch("getPositions", { credentialId });
+        return JSON.stringify({
+          preview: true,
+          nothing_closed: true,
+          would_close: tryJson(positions),
+          next_step:
+            "PREVIEW ONLY — no positions were closed. These would ALL be flattened at market. Show this to the user; if and only if they explicitly approve, call mithril_dex_close_all_positions again with confirm: true.",
+        });
+      }
+      return dispatch("closeAllPositions", { credentialId });
+    }),
 );
 
 /* ---------------- Prediction markets — keyless ---------------- */

@@ -1,0 +1,36 @@
+name: gitleaks
+
+# Secret scanner. Scans only the NEW commits in a push / PR (not full history),
+# so historical false-positives never block a build while any newly-introduced
+# secret (a committed .env, an mt_live_ / sb_secret_ key, etc.) fails the check.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          VERSION=8.30.1
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" \
+            | sudo tar -xz -C /usr/local/bin gitleaks
+          gitleaks version
+
+      - name: Scan new commits for secrets
+        run: |
+          BASE="${{ github.event.pull_request.base.sha || github.event.before }}"
+          HEAD="${{ github.sha }}"
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            echo "No base ref available — scanning the latest commit."
+            gitleaks git . --log-opts="-1" --redact --no-banner
+          else
+            echo "Scanning range $BASE..$HEAD"
+            gitleaks git . --log-opts="$BASE..$HEAD" --redact --no-banner
+          fi

@@ -1,0 +1,34 @@
+title = "Mithril gitleaks config"
+
+# Use gitleaks' full built-in rule set (AWS, GitHub PAT, Supabase, Stripe, JWT, etc.)
+[extend]
+useDefault = true
+
+# Custom rules for Mithril-specific credential shapes.
+[[rules]]
+id = "mithril-live-key"
+description = "Mithril live API key (mt_live_)"
+regex = '''mt_live_[A-Za-z0-9]{20,}'''
+keywords = ["mt_live_"]
+
+[[rules]]
+id = "mithril-app-key"
+description = "Mithril app key (mt_app_)"
+regex = '''mt_app_[A-Za-z0-9]{20,}'''
+keywords = ["mt_app_"]
+
+[[rules]]
+id = "supabase-secret-key"
+description = "Supabase secret / service key (sb_secret_)"
+regex = '''sb_secret_[A-Za-z0-9]{20,}'''
+keywords = ["sb_secret_"]
+
+[allowlist]
+description = "Fixtures and docs that carry fake/example secrets by design. NOTE: .env files are NEVER allowlisted — those are real."
+paths = [
+  '''.*\.test\.ts$''',
+  '''.*/__tests__/.*''',
+  '''docs/.*\.md$''',
+  '''.*\.example$''',
+  '''.*\.sample$''',
+]
